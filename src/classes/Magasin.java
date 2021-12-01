@@ -2,13 +2,16 @@ package classes;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Classe bilan sur les dépences et les revenus du magasin
- * Ces derniers sont calculés à partir des ajouts et des confirmations de ventes des véhicules
+ * (Integre le design pattern : singleton)
  */
 public class Magasin {
-  // ________________________ Attributs ________________________
+  // ________________________ Attributs
+
+  private static AbstractUtilisateur utilisateurEnCours;
 
   private static Magasin magasin;
 
@@ -20,23 +23,31 @@ public class Magasin {
   private String nom;
 
   /** Collection des véhicules du magasin
-   * src doc : https://www.geeksforgeeks.org/treemap-in-java/
+   * Map doc : https://www.geeksforgeeks.org/treemap-in-java
    */
   private Map<Long, AbstractVehicule> collectionVehicules;
   private Map<Long, AbstractUtilisateur> collectionUtilisateurs;
   private Map<Long, FormulaireAchatVehicule> collectionFormulaireAchatVehicules;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
-  private Magasin() {}
+  private Magasin() {
+    collectionVehicules = new TreeMap<>();
+    collectionUtilisateurs = new TreeMap<>();
+    collectionFormulaireAchatVehicules = new TreeMap<>();
+  }
 
   /** Design pattern : singleton (Classe Magasin) */
   public static Magasin getInstance() {
-    if (magasin == null) return new Magasin(); else return magasin;
+    if (magasin == null) {
+      return new Magasin();
+    } else {
+      return magasin;
+    }
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   /* Getter */
   public Map<Long, AbstractVehicule> getCollectionVehicules() {
@@ -47,8 +58,24 @@ public class Magasin {
     return this.collectionUtilisateurs;
   }
 
+  public Map<Long, FormulaireAchatVehicule> getCollectionFormulaireAchatVehicules() {
+    return this.collectionFormulaireAchatVehicules;
+  }
+
   public String getNom() {
     return this.nom;
+  }
+
+  public void setNom(String nom) {
+    this.nom = nom;
+  }
+
+  public AbstractUtilisateur getUtilisateurEnCours() {
+    return utilisateurEnCours;
+  }
+
+  public void setUtilisateurEnCours(AbstractUtilisateur abstractUtilisateur) {
+    utilisateurEnCours = abstractUtilisateur;
   }
 
   /** Retourne le montant totale des dépences */
@@ -72,16 +99,11 @@ public class Magasin {
   }
 
   /** Retourne le montant totale des benefices */
-  public Double getBenefice() {
+  public Double getBenefices() {
     return getRevenus() - getDepences();
   }
 
-  /* Setter */
-  public void setNom(String nom) {
-    this.nom = nom;
-  }
-
-  // ________________________ Méthodes ________________________
+  // ________________________ Méthodes
 
   public void ajouterUtilisateur(AbstractUtilisateur utilisateur) {
     collectionUtilisateurs.put(cptIdUtilisateur, utilisateur);
@@ -100,14 +122,55 @@ public class Magasin {
     );
   }
 
-  // ________________________ ToString ________________________
+  // ________________________ Méthodes
+
+  /**
+   * Retourne les véhicules pas encor vendue
+   * */
+  public Map<Long, AbstractVehicule> getVoituresEnVente() {
+    Map<Long, AbstractVehicule> voituresEnVente = new TreeMap<>();
+
+    for (Map.Entry<Long, FormulaireAchatVehicule> formulaire : getCollectionFormulaireAchatVehicules()
+      .entrySet()) {
+      // Regrouppement des achats  pas encor confirmé
+      if (formulaire.getValue().getIsAchatFinalise() == false) {
+        voituresEnVente.put(
+          formulaire.getKey(), // key
+          getCollectionVehicules().get(formulaire.getKey()) // value
+        );
+      }
+    }
+
+    return voituresEnVente;
+  }
+
+  public Map<Long, FormulaireAchatVehicule> getFormulairesCommandesAcheteur(
+    Acheteur acheteur
+  ) {
+    Map<Long, FormulaireAchatVehicule> formulairesCommandesAcheteur = new TreeMap<>();
+
+    for (Map.Entry<Long, FormulaireAchatVehicule> formulaire : getCollectionFormulaireAchatVehicules()
+      .entrySet()) {
+      // Regrouppement des commandes effectué par le client
+      if (formulaire.getValue().getAcheteur() == acheteur) {
+        formulairesCommandesAcheteur.put(
+          formulaire.getKey(), // key
+          getCollectionFormulaireAchatVehicules().get(formulaire.getKey()) // value
+        );
+      }
+    }
+
+    return formulairesCommandesAcheteur;
+  }
+
+  // ________________________ ToString
 
   @Override
   public String toString() {
     return (
       "{" +
       ", benefice='" +
-      getBenefice() +
+      getBenefices() +
       "'" +
       ", collectionVehicules='" +
       getCollectionVehicules() +

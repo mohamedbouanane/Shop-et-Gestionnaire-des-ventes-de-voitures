@@ -44,11 +44,11 @@ public class FormulaireAchatVehicule {
     this.vehicule = vehicule;
   }
 
-  public Boolean isAchatFinalise() {
+  public Boolean getIsAchatFinalise() {
     return this.achatFinalise;
   }
 
-  public void setAchatFinalise(Boolean achatFinalise) {
+  public void setIsAchatFinalise(Boolean achatFinalise) {
     this.achatFinalise = achatFinalise;
   }
 
@@ -65,7 +65,7 @@ public class FormulaireAchatVehicule {
       getAcheteur() +
       "'" +
       ", achatFinalise='" +
-      isAchatFinalise() +
+      getIsAchatFinalise() +
       "'" +
       "}"
     );
