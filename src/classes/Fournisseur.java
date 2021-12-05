@@ -1,33 +1,33 @@
 package classes;
 
-/** Fournisseur de Véhicule */
+/** Fournisseur de Vehicule */
 public class Fournisseur {
-  // ________________________ Attributes ________________________
+  // ________________________ Attributes
 
-  private String nom;
+  private String nomComplet;
   private String adresse;
   private String telephone;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
   public Fournisseur() {}
 
   /** Constructeur complet */
-  public Fournisseur(String nom, String adresse, String telephone) {
-    this.nom = nom;
+  public Fournisseur(String nomComplet, String adresse, String telephone) {
+    this.nomComplet = nomComplet;
     this.adresse = adresse;
     this.telephone = telephone;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
-  public String getNom() {
-    return this.nom;
+  public String getNomComplet() {
+    return this.nomComplet;
   }
 
-  public void setNom(String nom) {
-    this.nom = nom;
+  public void setNomComplet(String nomComplet) {
+    this.nomComplet = nomComplet;
   }
 
   public String getAdresse() {
@@ -46,22 +46,10 @@ public class Fournisseur {
     this.telephone = telephone;
   }
 
-  // ________________________ ToString ________________________
+  // ________________________ Methodes
 
   @Override
   public String toString() {
-    return (
-      "{" +
-      ", nom='" +
-      getNom() +
-      "'" +
-      ", adresse='" +
-      getAdresse() +
-      "'" +
-      ", telephone='" +
-      getTelephone() +
-      "'" +
-      "}"
-    );
+    return nomComplet + " (" + telephone + ")";
   }
 }

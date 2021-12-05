@@ -3,38 +3,33 @@ package classes;
 public class Acheteur extends AbstractUtilisateur {
   private String nom;
   private String prenom;
-  private String email;
   private String telephone;
   private String adresse;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
   public Acheteur() {
     super();
   }
 
-  /** Constructeur d'héritage */
-  public Acheteur(String identifiant, String motDePasse) {
-    super(identifiant, motDePasse);
-  }
-
   /** Constructeur complet */
   public Acheteur(
     String nom,
     String prenom,
-    String email,
     String telephone,
-    String adresse
+    String adresse,
+    String email,
+    String motDePasse
   ) {
+    super(email, motDePasse);
     this.nom = nom;
     this.prenom = prenom;
-    this.email = email;
     this.telephone = telephone;
     this.adresse = adresse;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   public String getNom() {
     return this.nom;
@@ -50,14 +45,6 @@ public class Acheteur extends AbstractUtilisateur {
 
   public void setPrenom(String prenom) {
     this.prenom = prenom;
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getTelephone() {
@@ -76,28 +63,10 @@ public class Acheteur extends AbstractUtilisateur {
     this.adresse = adresse;
   }
 
-  // ________________________ ToString ________________________
+  // ________________________ Methodes
 
   @Override
   public String toString() {
-    return (
-      "{" +
-      " nom='" +
-      getNom() +
-      "'" +
-      ", prenom='" +
-      getPrenom() +
-      "'" +
-      ", email='" +
-      getEmail() +
-      "'" +
-      ", telephone='" +
-      getTelephone() +
-      "'" +
-      ", adresse='" +
-      getAdresse() +
-      "'" +
-      "}"
-    );
+    return super.toString();
   }
 }

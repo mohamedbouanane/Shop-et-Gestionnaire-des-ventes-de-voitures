@@ -1,12 +1,12 @@
 package classes;
 
-/** MiniForgonnette class héritante de la class Vehicule*/
+/** MiniForgonnette class heritante de la class Vehicule*/
 public class Suv4x4 extends AbstractVehicule {
-  // ________________________ Attributs ________________________
+  // ________________________ Attributs
 
   private Integer poidMaxChargmenKg;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
   public Suv4x4() {
@@ -18,11 +18,11 @@ public class Suv4x4 extends AbstractVehicule {
     String nom,
     String immatriculation,
     String marque,
-    String puissance,
+    Integer puissance,
     String couleur,
     EnumCarburant carburant,
-    Double prixVente,
     Double prixAchat,
+    Double prixVente,
     Integer poidMaxChargmenKg,
     Fournisseur fournisseur
   ) {
@@ -40,7 +40,7 @@ public class Suv4x4 extends AbstractVehicule {
     this.poidMaxChargmenKg = poidMaxChargmenKg;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   public Integer getPoidMaxChargmenKg() {
     return this.poidMaxChargmenKg;
@@ -50,7 +50,7 @@ public class Suv4x4 extends AbstractVehicule {
     this.poidMaxChargmenKg = poidMaxChargmenKg;
   }
 
-  // ________________________ ToString ________________________
+  // ________________________ Methodes
 
   @Override
   public String toString() {

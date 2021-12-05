@@ -1,22 +1,22 @@
 package classes;
 
 /**
- * Classe d'abstraction pour les Véhicules du magasin
+ * Classe d'abstraction pour les Vehicules du magasin
  */
 public abstract class AbstractVehicule {
-  // ________________________ Attributes ________________________
+  // ________________________ Attributes
 
   private String nom;
   private String immatriculation;
   private String marque;
-  private String puissance;
+  private Integer puissance; // Cheveaux
   private String couleur;
   private EnumCarburant carburant;
-  private Double prixVente;
-  private Double prixAchat;
+  private Double prixVente; // en £
+  private Double prixAchat; // en £
   private Fournisseur fournisseur;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
   public AbstractVehicule() {}
@@ -26,11 +26,11 @@ public abstract class AbstractVehicule {
     String nom,
     String immatriculation,
     String marque,
-    String puissance,
+    Integer puissance,
     String couleur,
     EnumCarburant carburant,
-    Double prixVente,
     Double prixAchat,
+    Double prixVente,
     Fournisseur fournisseur
   ) {
     this.nom = nom;
@@ -44,7 +44,7 @@ public abstract class AbstractVehicule {
     this.fournisseur = fournisseur;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   public String getNom() {
     return this.nom;
@@ -70,11 +70,11 @@ public abstract class AbstractVehicule {
     this.marque = marque;
   }
 
-  public String getPuissance() {
+  public Integer getPuissance() {
     return this.puissance;
   }
 
-  public void setPuissance(String puissance) {
+  public void setPuissance(Integer puissance) {
     this.puissance = puissance;
   }
 
@@ -118,40 +118,28 @@ public abstract class AbstractVehicule {
     this.fournisseur = fournisseur;
   }
 
-  // ________________________ ToString ________________________
+  // ________________________ Methodes
 
   @Override
   public String toString() {
     return (
-      "{" +
-      ", nom='" +
-      getNom() +
-      "'" +
-      ", immatriculation='" +
-      getImmatriculation() +
-      "'" +
-      ", marque='" +
-      getMarque() +
-      "'" +
-      ", puissance='" +
-      getPuissance() +
-      "'" +
-      ", couleur='" +
-      getCouleur() +
-      "'" +
-      ", carburant='" +
-      getCarburant() +
-      "'" +
-      ", prixVente='" +
-      getPrixVente() +
-      "'" +
-      ", prixAchat='" +
-      getPrixAchat() +
-      "'" +
-      ", fournisseur='" +
-      getFournisseur() +
-      "'" +
-      "}"
+      marque +
+      " " +
+      nom +
+      "\t" +
+      immatriculation +
+      "\t" +
+      puissance +
+      "\t" +
+      couleur +
+      "\t" +
+      carburant +
+      "\t" +
+      prixAchat +
+      "\t" +
+      prixVente +
+      "\t" +
+      fournisseur.toString()
     );
   }
 }

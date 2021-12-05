@@ -1,10 +1,12 @@
 package classes;
 
-/** Minibus class héritante de la class Vehicule*/
+/** Minibus class heritante de la class Vehicule*/
 public class Minibus extends AbstractVehicule {
-  // ________________________ Attributs ________________________
+  // ________________________ Attributs
 
   private Integer nbrChaises;
+
+  // ________________________ Constructeurs
 
   /** Constructeur vide */
   public Minibus() {
@@ -16,7 +18,7 @@ public class Minibus extends AbstractVehicule {
     String nom,
     String immatriculation,
     String marque,
-    String puissance,
+    Integer puissance,
     String couleur,
     Integer nbrChaises,
     EnumCarburant carburant,
@@ -31,14 +33,14 @@ public class Minibus extends AbstractVehicule {
       puissance,
       couleur,
       carburant,
-      prixVente,
       prixAchat,
+      prixVente,
       fournisseur
     ); // Fait appel au constructeur complet de la classe mère
     this.nbrChaises = nbrChaises;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   public Integer getNbrChaises() {
     return this.nbrChaises;
@@ -48,7 +50,7 @@ public class Minibus extends AbstractVehicule {
     this.nbrChaises = nbrChaises;
   }
 
-  // ________________________ ToString _______________________
+  // ________________________ Methodes
 
   @Override
   public String toString() {

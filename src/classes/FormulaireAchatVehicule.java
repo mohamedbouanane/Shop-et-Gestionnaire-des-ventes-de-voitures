@@ -1,32 +1,35 @@
 package classes;
 
+import java.util.Date;
+
 /**
  * Ce Formulaire est remplie par le client lors de l'envoi d'une commande d'achat d'un Vehicule
  */
 public class FormulaireAchatVehicule {
-  // ________________________ Attributes ________________________
+  // ________________________ Attributes
 
   private AbstractVehicule vehicule;
   private Acheteur acheteur;
-  private Boolean achatFinalise; // si true : L'achat de la voiture est donc confirmé
+  private Boolean achatFinalise = false; // si true : L'achat de la voiture est donc confirme
+  private Date dateCommande;
 
-  // ________________________ Constructeurs ________________________
+  // ________________________ Constructeurs
 
-  /** Constructeur avec just l'identifiant incrémenté */
+  /** Constructeur avec just l'identifiant incremente */
   public FormulaireAchatVehicule() {}
 
-  /** Constructeur sans identifiant (ce dernier se génère automatiquement) */
+  /** Constructeur sans identifiant (ce dernier se genère automatiquement) */
   public FormulaireAchatVehicule(
     AbstractVehicule vehicule,
     Acheteur acheteur,
-    Boolean achatFinalise
+    Date dateCommande
   ) {
     this.vehicule = vehicule;
     this.acheteur = acheteur;
-    this.achatFinalise = achatFinalise;
+    this.dateCommande = dateCommande;
   }
 
-  // ________________________ Accesseurs ________________________
+  // ________________________ Accesseurs
 
   public Acheteur getAcheteur() {
     return this.acheteur;
@@ -52,22 +55,32 @@ public class FormulaireAchatVehicule {
     this.achatFinalise = achatFinalise;
   }
 
-  // ________________________ ToString ________________________
+  public Date getDateCommande() {
+    return this.dateCommande;
+  }
+
+  public void setDateCommande(Date dateCommande) {
+    this.dateCommande = dateCommande;
+  }
+
+  // ________________________ Methodes
 
   @Override
   public String toString() {
     return (
-      "{" +
-      " vehicule='" +
-      getVehicule() +
-      "'" +
-      ", acheteur='" +
-      getAcheteur() +
-      "'" +
-      ", achatFinalise='" +
-      getIsAchatFinalise() +
-      "'" +
-      "}"
+      dateCommande +
+      "\t" +
+      acheteur.getNom() +
+      " " +
+      acheteur.getPrenom() +
+      "\t" +
+      acheteur.getTelephone() +
+      "\t" +
+      vehicule.getNom() +
+      " " +
+      vehicule.getMarque() +
+      "\t" +
+      vehicule.getPrixVente()
     );
   }
 }

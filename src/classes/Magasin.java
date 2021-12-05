@@ -5,24 +5,24 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * Classe bilan sur les dépences et les revenus du magasin
+ * Classe bilan sur les depences et les revenus du magasin
  * (Integre le design pattern : singleton)
  */
-public class Magasin {
+public class Magasin implements InterfaceMagasin {
   // ________________________ Attributs
 
   private static AbstractUtilisateur utilisateurEnCours;
 
   private static Magasin magasin;
 
-  /** Variable d'incrémentation pour les identifiants des collections */
-  private static Long cptIdVehicules = 0L;
-  private static Long cptIdUtilisateur = 0L;
-  private static Long cptIdFormulaireAchatVehicule = 0L;
+  /** Variable d'incrementation pour les identifiants des collections */
+  private Long cptIdVehicules = 0L;
+  private Long cptIdUtilisateur = 0L;
+  private Long cptIdFormulaireAchatVehicule = 0L;
 
   private String nom;
 
-  /** Collection des véhicules du magasin
+  /** Collection des vehicules du magasin
    * Map doc : https://www.geeksforgeeks.org/treemap-in-java
    */
   private Map<Long, AbstractVehicule> collectionVehicules;
@@ -41,7 +41,8 @@ public class Magasin {
   /** Design pattern : singleton (Classe Magasin) */
   public static Magasin getInstance() {
     if (magasin == null) {
-      return new Magasin();
+      magasin = new Magasin();
+      return magasin;
     } else {
       return magasin;
     }
@@ -62,11 +63,11 @@ public class Magasin {
     return this.collectionFormulaireAchatVehicules;
   }
 
-  public String getNom() {
+  public String getNomMagasin() {
     return this.nom;
   }
 
-  public void setNom(String nom) {
+  public void setNomMagasin(String nom) {
     this.nom = nom;
   }
 
@@ -78,61 +79,67 @@ public class Magasin {
     utilisateurEnCours = abstractUtilisateur;
   }
 
-  /** Retourne le montant totale des dépences */
+  // ________________________ Methodes
+
   public Double getDepences() {
     Double depences = 0d;
-    for (Entry<Long, AbstractVehicule> vehicule : collectionVehicules.entrySet()) {
-      depences += vehicule.getValue().getPrixAchat();
+    for (AbstractVehicule vehicule : collectionVehicules.values()) {
+      depences += vehicule.getPrixAchat();
     }
     return depences;
   }
 
-  /** Retourne le montant totale des entrées d’argent */
   public Double getRevenus() {
     Double revenus = 0d;
-    for (Entry<Long, FormulaireAchatVehicule> formulaire : collectionFormulaireAchatVehicules.entrySet()) {
-      if (formulaire.getValue().isAchatFinalise() == true) {
-        revenus += formulaire.getValue().getVehicule().getPrixVente();
+    for (FormulaireAchatVehicule formulaire : collectionFormulaireAchatVehicules.values()) {
+      if (formulaire.getIsAchatFinalise() == true) {
+        revenus += formulaire.getVehicule().getPrixVente();
       }
     }
     return revenus;
   }
 
-  /** Retourne le montant totale des benefices */
   public Double getBenefices() {
     return getRevenus() - getDepences();
   }
 
-  // ________________________ Méthodes
+  // ________________________ Methodes
 
   public void ajouterUtilisateur(AbstractUtilisateur utilisateur) {
-    collectionUtilisateurs.put(cptIdUtilisateur, utilisateur);
     cptIdUtilisateur = cptIdUtilisateur + 1;
+    collectionUtilisateurs.putIfAbsent(cptIdUtilisateur, utilisateur);
   }
 
   public void ajouterVehicule(AbstractVehicule vehicule) {
-    collectionVehicules.put(cptIdVehicules, vehicule);
     cptIdVehicules = cptIdVehicules + 1;
+    collectionVehicules.putIfAbsent(cptIdVehicules, vehicule);
+  }
+
+  public void modifierVehicule(Long key, AbstractVehicule vehicule) {
+    collectionVehicules.put(key, vehicule);
+  }
+
+  public void supprimerVehicule(Long key) {
+    collectionVehicules.remove(key);
   }
 
   public void ajouterDemandeAchat(FormulaireAchatVehicule formulaire) {
-    collectionFormulaireAchatVehicules.put(
+    cptIdFormulaireAchatVehicule++;
+    collectionFormulaireAchatVehicules.putIfAbsent(
       cptIdFormulaireAchatVehicule,
       formulaire
     );
   }
 
-  // ________________________ Méthodes
+  public void annulerDemandeAchat(Long key) {
+    collectionFormulaireAchatVehicules.remove(key);
+  }
 
-  /**
-   * Retourne les véhicules pas encor vendue
-   * */
   public Map<Long, AbstractVehicule> getVoituresEnVente() {
     Map<Long, AbstractVehicule> voituresEnVente = new TreeMap<>();
 
-    for (Map.Entry<Long, FormulaireAchatVehicule> formulaire : getCollectionFormulaireAchatVehicules()
-      .entrySet()) {
-      // Regrouppement des achats  pas encor confirmé
+    for (Map.Entry<Long, FormulaireAchatVehicule> formulaire : collectionFormulaireAchatVehicules.entrySet()) {
+      // Regrouppement des achats  pas encor confirme
       if (formulaire.getValue().getIsAchatFinalise() == false) {
         voituresEnVente.put(
           formulaire.getKey(), // key
@@ -151,7 +158,7 @@ public class Magasin {
 
     for (Map.Entry<Long, FormulaireAchatVehicule> formulaire : getCollectionFormulaireAchatVehicules()
       .entrySet()) {
-      // Regrouppement des commandes effectué par le client
+      // Regrouppement des commandes effectue par le client
       if (formulaire.getValue().getAcheteur() == acheteur) {
         formulairesCommandesAcheteur.put(
           formulaire.getKey(), // key
@@ -163,22 +170,17 @@ public class Magasin {
     return formulairesCommandesAcheteur;
   }
 
-  // ________________________ ToString
-
   @Override
   public String toString() {
     return (
-      "{" +
-      ", benefice='" +
-      getBenefices() +
-      "'" +
-      ", collectionVehicules='" +
-      getCollectionVehicules() +
-      "'" +
-      ", collectionUtilisateur='" +
-      getCollectionUtilisateurs() +
-      "'" +
-      "}"
+      "Nom du magasin:\t" +
+      magasin.getNomMagasin() +
+      "\n\n- Depences:\t" +
+      magasin.getDepences() +
+      "\n- Revenus:\t" +
+      magasin.getRevenus() +
+      "\n- Benefices:\t" +
+      magasin.getBenefices()
     );
   }
 }
