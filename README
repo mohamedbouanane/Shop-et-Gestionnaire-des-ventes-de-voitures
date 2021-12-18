@@ -1,0 +1,41 @@
+- | Description du projet
+
+    Il s'agit d'une application (Java Console) de gestion d'un magasin de vente de véhicules pour ses consaissionaires et pour passer des achats pour ses clients.
+    
+    L'application inclut les fonctionnalitées suivantes:
+
+    + Sécurisation d'accés aux profils par authentification (pour consaissionaires et pour acheteurs)
+        - La gestion des profiles n'est pas incluse sur console.
+
+    + Consaissionaire: Gestion de la mise de vente des véhicules
+        - L'ajout des véhicules et leur mise à jour n'est pas inclus sur console (en vue de leurs complexité trop élevé).
+
+    + Consaissionaire: Gestion des commandes des Acheteurs (Finnalisation d'une commande passé par un acheteur).
+    
+    + Consaissionaire: Accès au tableau de bord du bilan des gains et des pertes du magasin.
+
+    + Acheteur: Passer une commande pour un achat d'un véhicule.
+    
+    + Acheteur: Visualisation des commandes effectués et possibilité de les annuler (saufe en cas ou la commande est confirmé par un consaissionaire).
+
+
+Outils : Java, Console, JUnit, VSCode.
+
+
+-- | Description du code
+
+    + La classe Main :  Là ou tout démare, elle Comporte tout les vues console (partie interraction avec l'utilisateur)
+    ->  Chaque méthode commançant par 'afficher' exécute l'affichage d'une vue sur console.
+    ->  les boucles while (true) ou bien  while (retourner != true) dans la plupars des méthodes de la classe Main ont pour objectif de figer la navigation de l'utilisateur dans une interface bien precise à fin de l'obliger à saisir une entrée convenable à la logique de navigation ou d'action.
+
+        Une fois la valeur de la variable retourner == true, ou le déclencheur break s'active : 
+        La boucle en cours s'arrête et la méthode responsable du déclenchemant de celle en cours prend le relais.
+
+    ->  L'exemple : Menu principal > Authentification > Accueil Client >
+        Désigne la vue actuelle ou ce situe l'utilisateur.
+
+    + Le dossier classes comporte des fichiers en double
+        .java : Comporte le code source Java de nos classes
+        .class : Sont des fichers compilé des fichiers .java 
+
+    + La classe DataTests dans le dossier testes : Comporte le code d'insertion des données de teste pour touts les classes.
